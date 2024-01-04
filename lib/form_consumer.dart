@@ -16,10 +16,6 @@ class FormConsumer extends HookConsumerWidget {
     // form用のコントローラー
     final _kanaController = useTextEditingController();
     final _passwordController = useTextEditingController();
-    // エラーメッセージの状態変数
-    final _errorMessage = useState<String>('');
-    // 数字のエラーメッセージの状態変数
-    final _numberErrorMessage = useState<String>('');
 
     return Scaffold(
       appBar: AppBar(
@@ -70,10 +66,11 @@ class FormConsumer extends HookConsumerWidget {
                 // 入力された値が12文字を超えた場合
                 if (value.length > 12) {
                   // エラーメッセージを表示
-                  _errorMessage.value = '12文字以内で入力してください';
+                  // _errorMessage.value = '12文字以内で入力してください';
+                  ref.read(formNotifierProvider.notifier).kanaChanged(value);
                 } else {
                   // エラーメッセージを非表示
-                  _errorMessage.value = '';
+                  ref.read(formNotifierProvider.notifier).kanaChanged(value);
                 }
               },
               // 入力された値が正規表現にマッチしなかった場合
@@ -96,10 +93,14 @@ class FormConsumer extends HookConsumerWidget {
                 // 入力された値が12文字を超えた場合
                 if (value.length > 12) {
                   // エラーメッセージを表示
-                  _numberErrorMessage.value = '12文字以内で入力してください';
+                  ref
+                      .read(formNotifierProvider.notifier)
+                      .passwordChanged(value);
                 } else {
                   // エラーメッセージを非表示
-                  _numberErrorMessage.value = '';
+                  ref
+                      .read(formNotifierProvider.notifier)
+                      .passwordChanged(value);
                 }
               },
               // 入力された値が正規表現にマッチしなかった場合
